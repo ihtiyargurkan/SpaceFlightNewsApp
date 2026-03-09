@@ -1,16 +1,19 @@
 package com.example.spaceflightnewsapp.ui.newslist
 
 import android.os.Bundle
-import com.example.spaceflightnewsapp.R
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.spaceflightnewsapp.R
 import com.example.spaceflightnewsapp.databinding.FragmentNewsListBinding
 
 class NewsListFragment : Fragment() {
@@ -40,6 +43,9 @@ class NewsListFragment : Fragment() {
         observeViewModel()
     }
 
+    private val searchHandler = Handler(Looper.getMainLooper())
+    private var searchRunnable: Runnable? = null
+
     private fun setupToolbar() {
         binding.toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -50,6 +56,31 @@ class NewsListFragment : Fragment() {
                 else -> false
             }
         }
+        setupSearchView()
+    }
+
+    private fun setupSearchView() {
+        val searchItem = binding.toolbar.menu.findItem(R.id.action_search)
+        val searchView = searchItem?.actionView as? SearchView ?: return
+
+        searchView.queryHint = getString(R.string.search_hint)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                searchRunnable?.let { searchHandler.removeCallbacks(it) }
+                viewModel.search(query)
+                searchView.clearFocus()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                searchRunnable?.let { searchHandler.removeCallbacks(it) }
+                searchRunnable = Runnable {
+                    viewModel.search(searchView.query?.toString())
+                }
+                searchHandler.postDelayed(searchRunnable!!, 500)
+                return true
+            }
+        })
     }
 
     private fun setupRecyclerView() {

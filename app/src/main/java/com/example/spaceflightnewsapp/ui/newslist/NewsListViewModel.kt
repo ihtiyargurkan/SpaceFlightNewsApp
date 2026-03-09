@@ -61,7 +61,11 @@ class NewsListViewModel(
         loadArticles(currentSearch)
     }
 
+    /**
+     * Searches articles by keyword. Pass null or blank to load all articles.
+     */
     fun search(query: String?) {
-        loadArticles(query?.takeIf { it.isNotBlank() })
+        val searchQuery = query?.trim()?.takeIf { it.isNotBlank() }
+        loadArticles(searchQuery)
     }
 }
