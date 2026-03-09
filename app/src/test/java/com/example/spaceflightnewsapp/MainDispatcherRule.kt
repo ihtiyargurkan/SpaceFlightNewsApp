@@ -1,5 +1,6 @@
 package com.example.spaceflightnewsapp
 
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -10,6 +11,7 @@ import org.junit.runner.Description
 /**
  * JUnit rule that sets the main coroutine dispatcher for unit tests.
  */
+@OptIn(ExperimentalCoroutinesApi::class)
 class MainDispatcherRule(
     private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
 ) : TestWatcher() {

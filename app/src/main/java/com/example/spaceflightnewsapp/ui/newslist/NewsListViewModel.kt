@@ -47,9 +47,9 @@ class NewsListViewModel(
             _isLoading.value = false
             result.fold(
                 onSuccess = { list ->
-                    _articles.value = list
+                    _articles.value = list ?: emptyList()
                     currentSearch = search
-                    currentOffset = list.size
+                    currentOffset = list?.size ?: 0
                 },
                 onFailure = { e ->
                     _errorMessage.value = ErrorHandler.getErrorMessage(e)

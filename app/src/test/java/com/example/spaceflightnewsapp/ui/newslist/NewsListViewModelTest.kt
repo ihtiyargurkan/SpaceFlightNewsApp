@@ -4,15 +4,15 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.spaceflightnewsapp.MainDispatcherRule
 import com.example.spaceflightnewsapp.data.model.Article
 import com.example.spaceflightnewsapp.data.repository.NewsRepository
+import io.mockk.coEvery
+import io.mockk.mockk
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.kotlin.any
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.whenever
 import kotlin.Result
 
 class NewsListViewModelTest {
@@ -42,39 +42,37 @@ class NewsListViewModelTest {
 
     @Before
     fun setup() {
-        repository = mock()
-        whenever(repository.getArticles(any(), any(), any()))
-            .thenReturn(Result.success(emptyList()))
+        repository = mockk(relaxed = true)
+        coEvery { repository.getArticles(any(), any(), any()) } returns Result.success(emptyList())
         viewModel = NewsListViewModel(repository)
     }
 
     @Test
     fun search_withBlankQuery_callsLoadArticlesWithNull() = runTest {
-        whenever(repository.getArticles(any(), any(), any()))
-            .thenReturn(Result.success(emptyList()))
+        coEvery { repository.getArticles(any(), any(), any()) } returns Result.success(emptyList())
 
         viewModel.search("   ")
-        viewModel.search("")
+        advanceUntilIdle()
 
         assertEquals(emptyList<Article>(), viewModel.articles.value)
     }
 
     @Test
     fun search_withValidQuery_loadsArticles() = runTest {
-        whenever(repository.getArticles(any(), any(), any()))
-            .thenReturn(Result.success(testArticles))
+        coEvery { repository.getArticles(any(), any(), any()) } returns Result.success(testArticles)
 
         viewModel.search("spacex")
+        advanceUntilIdle()
 
         assertEquals(testArticles, viewModel.articles.value)
     }
 
     @Test
     fun loadArticles_onSuccess_updatesArticles() = runTest {
-        whenever(repository.getArticles(any(), any(), any()))
-            .thenReturn(Result.success(testArticles))
+        coEvery { repository.getArticles(any(), any(), any()) } returns Result.success(testArticles)
 
         viewModel.loadArticles()
+        advanceUntilIdle()
 
         assertEquals(testArticles, viewModel.articles.value)
         assertEquals(false, viewModel.isLoading.value)
@@ -84,10 +82,10 @@ class NewsListViewModelTest {
     @Test
     fun loadArticles_onFailure_updatesErrorMessage() = runTest {
         val exception = Exception("Network error")
-        whenever(repository.getArticles(any(), any(), any()))
-            .thenReturn(Result.failure(exception))
+        coEvery { repository.getArticles(any(), any(), any()) } returns Result.failure(exception)
 
         viewModel.loadArticles()
+        advanceUntilIdle()
 
         assertEquals(false, viewModel.isLoading.value)
         assertEquals("Network error", viewModel.errorMessage.value)

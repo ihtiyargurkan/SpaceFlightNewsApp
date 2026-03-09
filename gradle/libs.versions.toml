@@ -20,6 +20,7 @@ navigation = "2.7.7"
 room = "2.6.1"
 mockito = "5.8.0"
 mockitoKotlin = "5.2.1"
+mockk = "1.13.10"
 coroutinesTest = "1.7.3"
 archCoreTesting = "2.2.0"
 
@@ -51,6 +52,7 @@ mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mo
 mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "mockitoKotlin" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutinesTest" }
 androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "archCoreTesting" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
