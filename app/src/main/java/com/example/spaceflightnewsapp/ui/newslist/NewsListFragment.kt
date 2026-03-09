@@ -36,7 +36,20 @@ class NewsListFragment : Fragment() {
 
         setupRecyclerView()
         setupSwipeRefresh()
+        setupToolbar()
         observeViewModel()
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_favorites -> {
+                    findNavController().navigate(R.id.favoritesFragment)
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     private fun setupRecyclerView() {

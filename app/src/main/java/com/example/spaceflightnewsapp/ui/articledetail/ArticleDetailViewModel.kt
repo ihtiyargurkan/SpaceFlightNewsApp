@@ -1,9 +1,11 @@
 package com.example.spaceflightnewsapp.ui.articledetail
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.spaceflightnewsapp.SpaceFlightNewsApplication
 import com.example.spaceflightnewsapp.data.model.Article
 import com.example.spaceflightnewsapp.data.repository.NewsRepository
 import kotlinx.coroutines.launch
@@ -11,12 +13,16 @@ import kotlinx.coroutines.launch
 /**
  * ViewModel for the article detail screen.
  */
-class ArticleDetailViewModel(
-    private val repository: NewsRepository = NewsRepository()
-) : ViewModel() {
+class ArticleDetailViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val newsRepository = NewsRepository()
+    private val favoritesRepository = (application as SpaceFlightNewsApplication).favoritesRepository
 
     private val _article = MutableLiveData<Article?>()
     val article: LiveData<Article?> = _article
+
+    private val _isFavorite = MutableLiveData<Boolean>()
+    val isFavorite: LiveData<Boolean> = _isFavorite
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -34,15 +40,25 @@ class ArticleDetailViewModel(
             _isLoading.value = true
             _errorMessage.value = null
 
-            val result = repository.getArticleById(articleId)
+            val result = newsRepository.getArticleById(articleId)
 
             _isLoading.value = false
             result.fold(
-                onSuccess = { _article.value = it },
+                onSuccess = {
+                    _article.value = it
+                    _isFavorite.value = favoritesRepository.isFavorite(it.id)
+                },
                 onFailure = { e ->
                     _errorMessage.value = e.message ?: "Unknown error"
                 }
             )
+        }
+    }
+
+    fun toggleFavorite() {
+        val currentArticle = _article.value ?: return
+        viewModelScope.launch {
+            _isFavorite.value = favoritesRepository.toggleFavorite(currentArticle)
         }
     }
 }

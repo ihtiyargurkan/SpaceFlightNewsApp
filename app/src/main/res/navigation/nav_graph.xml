@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_news_list" />
 
     <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.spaceflightnewsapp.ui.favorites.FavoritesFragment"
+        android:label="@string/favorites"
+        tools:layout="@layout/fragment_favorites" />
+
+    <fragment
         android:id="@+id/articleDetailFragment"
         android:name="com.example.spaceflightnewsapp.ui.articledetail.ArticleDetailFragment"
         android:label="@string/app_name"

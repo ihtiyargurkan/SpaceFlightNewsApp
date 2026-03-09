@@ -44,12 +44,25 @@ class ArticleDetailFragment : Fragment() {
 
         setupToolbar()
         setupReadMoreButton()
+        setupFavoriteMenu()
         observeViewModel()
     }
 
     private fun setupToolbar() {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun setupFavoriteMenu() {
+        binding.toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_favorite -> {
+                    viewModel.toggleFavorite()
+                    true
+                }
+                else -> false
+            }
         }
     }
 
@@ -69,6 +82,9 @@ class ArticleDetailFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.article.observe(viewLifecycleOwner) { article ->
             article?.let { displayArticle(it) }
+        }
+        viewModel.isFavorite.observe(viewLifecycleOwner) { isFavorite ->
+            updateFavoriteIcon(isFavorite == true)
         }
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressLoading.visibility =
@@ -109,6 +125,19 @@ class ArticleDetailFragment : Fragment() {
         binding.textNewsSite.visibility = View.VISIBLE
         binding.imageArticle.visibility = View.VISIBLE
         binding.buttonReadMore.visibility = View.VISIBLE
+    }
+
+    private fun updateFavoriteIcon(isFavorite: Boolean) {
+        binding.toolbar.menu.findItem(R.id.action_favorite)?.apply {
+            setIcon(
+                if (isFavorite) android.R.drawable.btn_star_big_on
+                else android.R.drawable.btn_star_big_off
+            )
+            title = getString(
+                if (isFavorite) R.string.remove_from_favorites
+                else R.string.add_to_favorites
+            )
+        }
     }
 
     override fun onDestroyView() {
