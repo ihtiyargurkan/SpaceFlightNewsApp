@@ -1,0 +1,24 @@
+package com.example.spaceflightnewsapp
+
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
+
+/**
+ * JUnit rule that sets the main coroutine dispatcher for unit tests.
+ */
+class MainDispatcherRule(
+    private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
+) : TestWatcher() {
+
+    override fun starting(description: Description) {
+        kotlinx.coroutines.Dispatchers.setMain(testDispatcher)
+    }
+
+    override fun finished(description: Description) {
+        kotlinx.coroutines.Dispatchers.resetMain()
+    }
+}
