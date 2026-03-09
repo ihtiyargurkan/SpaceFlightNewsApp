@@ -162,6 +162,13 @@ This project was developed as an educational study demonstrating:
 - Navigation Component usage
 - Material Design implementation
 
+## Screenshots
+<img width="317" height="702" alt="Screen Shot 2026-03-10 at 02 51 21" src="https://github.com/user-attachments/assets/330b2ef5-d134-4fcb-a94a-3ac249056f38" />
+<img width="317" height="702" alt="Screen Shot 2026-03-10 at 02 51 26" src="https://github.com/user-attachments/assets/5be3e3bc-fde9-4068-9dbd-ddf09c2a0d1f" />
+<img width="317" height="702" alt="Screen Shot 2026-03-10 at 02 51 34" src="https://github.com/user-attachments/assets/5607c62d-6fd2-4915-93b7-9ae2b1b3ace6" />
+<img width="317" height="702" alt="Screen Shot 2026-03-10 at 02 51 48" src="https://github.com/user-attachments/assets/240c3869-a063-489d-8ea2-630e2b8e9144" />
+
+
 ## License
 
 This project is developed for educational purposes.
