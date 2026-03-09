@@ -30,7 +30,7 @@
             android:layout_marginTop="12dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
             android:textColor="?attr/colorOnSurface"
             tools:text="Article title goes here" />
 
@@ -41,8 +41,8 @@
             android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:maxLines="3"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:textColor="?android:attr/textColorSecondary"
             tools:text="Article summary or excerpt text..." />
 
         <TextView
@@ -50,8 +50,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textAppearance="?attr/textAppearanceBodySmall"
-            android:textColor="?attr/colorOnSurfaceVariant"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="?android:attr/textColorSecondary"
             tools:text="9 Mar 2026" />
 
     </LinearLayout>

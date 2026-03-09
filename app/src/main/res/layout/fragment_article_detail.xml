@@ -45,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:textAppearance="?attr/textAppearanceHeadlineMedium"
+                android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="?attr/colorOnSurface"
                 android:visibility="gone"
                 tools:visibility="visible"
@@ -56,8 +56,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:textAppearance="?attr/textAppearanceBodySmall"
-                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textAppearance="?attr/textAppearanceCaption"
+                android:textColor="?android:attr/textColorSecondary"
                 android:visibility="gone"
                 tools:visibility="visible"
                 tools:text="9 Mar 2026" />
@@ -67,8 +67,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:textAppearance="?attr/textAppearanceBodySmall"
-                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textAppearance="?attr/textAppearanceCaption"
+                android:textColor="?android:attr/textColorSecondary"
                 android:visibility="gone"
                 tools:visibility="visible"
                 tools:text="Source: SpaceNews" />
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:textAppearance="?attr/textAppearanceBodyLarge"
+                android:textAppearance="?attr/textAppearanceBody1"
                 android:textColor="?attr/colorOnSurface"
                 android:lineSpacingMultiplier="1.2"
                 android:visibility="gone"
@@ -121,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    android:textAppearance="?attr/textAppearanceBody1"
                     android:textColor="?attr/colorError"
                     tools:text="Failed to load article" />
 
