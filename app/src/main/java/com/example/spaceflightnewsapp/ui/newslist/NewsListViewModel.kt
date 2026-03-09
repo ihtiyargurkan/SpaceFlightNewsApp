@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.spaceflightnewsapp.data.model.Article
 import com.example.spaceflightnewsapp.data.repository.NewsRepository
+import com.example.spaceflightnewsapp.util.ErrorHandler
 import kotlinx.coroutines.launch
 
 /**
@@ -51,7 +52,7 @@ class NewsListViewModel(
                     currentOffset = list.size
                 },
                 onFailure = { e ->
-                    _errorMessage.value = e.message ?: "Unknown error"
+                    _errorMessage.value = ErrorHandler.getErrorMessage(e)
                 }
             )
         }

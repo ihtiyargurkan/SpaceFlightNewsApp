@@ -40,6 +40,7 @@ class NewsListFragment : Fragment() {
         setupRecyclerView()
         setupSwipeRefresh()
         setupToolbar()
+        setupRetryButton()
         observeViewModel()
     }
 
@@ -98,9 +99,17 @@ class NewsListFragment : Fragment() {
         }
     }
 
+    private fun setupRetryButton() {
+        binding.buttonRetry.setOnClickListener {
+            viewModel.refresh()
+        }
+    }
+
     private fun observeViewModel() {
         viewModel.articles.observe(viewLifecycleOwner) { articles ->
-            adapter.submitList(articles ?: emptyList())
+            val list = articles ?: emptyList()
+            adapter.submitList(list)
+            updateEmptyState(list)
         }
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.progressLoading.visibility =
@@ -108,12 +117,24 @@ class NewsListFragment : Fragment() {
             binding.swipeRefresh.isRefreshing = isLoading == true
         }
         viewModel.errorMessage.observe(viewLifecycleOwner) { message ->
-            binding.textError.visibility =
-                if (message != null) View.VISIBLE else View.GONE
+            val hasError = message != null
+            binding.layoutError.visibility = if (hasError) View.VISIBLE else View.GONE
             binding.textError.text = message
-            message?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            if (hasError) {
+                binding.layoutEmpty.visibility = View.GONE
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun updateEmptyState(articles: List<com.example.spaceflightnewsapp.data.model.Article>) {
+        val hasError = viewModel.errorMessage.value != null
+        val isLoading = viewModel.isLoading.value == true
+        if (!hasError && !isLoading && articles.isEmpty()) {
+            binding.layoutEmpty.visibility = View.VISIBLE
+            binding.textEmpty.text = getString(R.string.no_search_results)
+        } else {
+            binding.layoutEmpty.visibility = View.GONE
         }
     }
 

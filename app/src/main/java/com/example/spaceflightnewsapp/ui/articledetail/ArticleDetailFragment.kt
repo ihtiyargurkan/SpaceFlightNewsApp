@@ -45,12 +45,19 @@ class ArticleDetailFragment : Fragment() {
         setupToolbar()
         setupReadMoreButton()
         setupFavoriteMenu()
+        setupRetryButton()
         observeViewModel()
     }
 
     private fun setupToolbar() {
         binding.toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun setupRetryButton() {
+        binding.buttonRetry.setOnClickListener {
+            viewModel.loadArticle(arguments?.getInt("article_id") ?: 0)
         }
     }
 
@@ -93,7 +100,7 @@ class ArticleDetailFragment : Fragment() {
                 if (isLoading == true) View.GONE else View.VISIBLE
         }
         viewModel.errorMessage.observe(viewLifecycleOwner) { message ->
-            binding.textError.visibility =
+            binding.layoutError.visibility =
                 if (message != null) View.VISIBLE else View.GONE
             binding.textError.text = message
             message?.let {

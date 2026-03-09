@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.spaceflightnewsapp.SpaceFlightNewsApplication
 import com.example.spaceflightnewsapp.data.model.Article
 import com.example.spaceflightnewsapp.data.repository.NewsRepository
+import com.example.spaceflightnewsapp.util.ErrorHandler
 import kotlinx.coroutines.launch
 
 /**
@@ -49,7 +50,7 @@ class ArticleDetailViewModel(application: Application) : AndroidViewModel(applic
                     _isFavorite.value = favoritesRepository.isFavorite(it.id)
                 },
                 onFailure = { e ->
-                    _errorMessage.value = e.message ?: "Unknown error"
+                    _errorMessage.value = ErrorHandler.getErrorMessage(e)
                 }
             )
         }
